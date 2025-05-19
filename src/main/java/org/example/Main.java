@@ -1,6 +1,10 @@
 package org.example;
 
 import org.apache.commons.logging.Log;
+import org.example.patterns.observer.EmailSubscriber;
+import org.example.patterns.observer.NewsAgency;
+import org.example.patterns.observer.Observer;
+import org.example.patterns.observer.SmsSubscriber;
 import org.example.patterns.strategy.CreditCardPayment;
 import org.example.patterns.strategy.PaypalPayment;
 import org.example.patterns.strategy.ShoppingCart;
@@ -32,14 +36,14 @@ public class Main {
         Logger logger = Logger.getInstance();
         logger.log("start");
 
-        ShoppingCart cart = new ShoppingCart(new CreditCardPayment("234-324","ho van han"));
-        cart.checkout(200);
+        NewsAgency agency = new NewsAgency();
 
-        cart.setPaymentStrategy(new PaypalPayment("han@gmail.com"));;
-        cart.checkout(150);
+        Observer emailSubscriber = new EmailSubscriber("user@example.com");
+        Observer smsSubscriber = new SmsSubscriber("123-456-7890");
 
-        cart.setPaymentStrategy(new CreditCardPayment("123-123","nam"));
-        cart.checkout(340);
+        agency.addObserver(emailSubscriber);
+        agency.addObserver(smsSubscriber);
 
+        agency.setNews("Breaking News: Design Patterns are awesome!");
     }
 }
